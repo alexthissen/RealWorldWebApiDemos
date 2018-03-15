@@ -25,10 +25,10 @@ namespace GameServerWebAPI.Controllers
         }
 
         // GET: /<controller>/
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return new RedirectResult("~/swagger");
-        }
+        //[HttpGet]
+        //public IActionResult Index()
+        //{
+        //    return new RedirectResult("~/swagger");
+        //}
     }
 }
