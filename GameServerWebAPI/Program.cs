@@ -19,6 +19,8 @@ namespace GameServerWebAPI
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                // Or to host on a separate port: .UseHealthChecks(port)
+                .UseHealthChecks("/health", TimeSpan.FromSeconds(3))     
                 .UseStartup<Startup>();
     }
 }

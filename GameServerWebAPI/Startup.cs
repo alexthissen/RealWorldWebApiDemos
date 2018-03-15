@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -26,10 +27,29 @@ namespace GameServerWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            ConfigureHealth(services);
+        }
+
+        private void ConfigureHealth(IServiceCollection services)
+        {
+            services.AddHealthChecks(checks =>
+            {
+                checks
+                    .AddUrlCheck("https://api.steampowered.com")
+                    .AddHealthCheckGroup(
+                        "memory",
+                        group => group
+                            .AddPrivateMemorySizeCheck(1000) // Maximum private memory
+                            .AddVirtualMemorySizeCheck(2000)
+                            .AddWorkingSetCheck(1000),
+                        CheckStatus.Unhealthy
+                    );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+            public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
