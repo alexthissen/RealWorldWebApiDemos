@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +16,8 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
+using Polly;
+using Refit;
 
 namespace GameServerWebAPI
 {
@@ -29,11 +33,25 @@ namespace GameServerWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var registry = services.AddPolicyRegistry();
+            var timeout = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
+
             ConfigureApiOptions(services);
             ConfigureOpenApi(services);
             ConfigureHealth(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddHttpClient("Refit", options =>
+            {
+                options.BaseAddress = new Uri("https://api.steampowered.com/IGameServersService/");
+                //options.BaseAddress = new Uri("http://localhost:56338/");
+                options.Timeout = TimeSpan.FromMilliseconds(15000);
+                options.DefaultRequestHeaders.Add("ClientFactory", "Check");
+            })
+            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
+            .AddServerErrorPolicyHandler(p => p.RetryAsync(3))
+            .AddTypedClient(client => RestService.For<ISteamClient>(client));
         }
 
         private void ConfigureApiOptions(IServiceCollection services)

@@ -11,7 +11,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0-preview1-final" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.0-preview1-final" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0-preview1-final" />
     <PackageReference Include="NSwag.AspNetCore" Version="11.15.4" />
+    <PackageReference Include="Refit" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Extensions\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj" />
+    <ProjectReference Include="..\Extensions\Microsoft.Extensions.Http.Polly\Microsoft.Extensions.Http.Polly.csproj" />
   </ItemGroup>
 
 </Project>
