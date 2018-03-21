@@ -38,6 +38,8 @@ namespace GameServerWebAPI
             var registry = services.AddPolicyRegistry();
             var timeout = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
 
+            services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
+
             ConfigureApiOptions(services);
             ConfigureOpenApi(services);
             ConfigureHealth(services);

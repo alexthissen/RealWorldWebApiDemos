@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace GameServerWebAPI.Controllers.V1
 {
@@ -14,10 +15,12 @@ namespace GameServerWebAPI.Controllers.V1
     [AdvertiseApiVersions("2.0")]
     public class GameServerController : ControllerBase
     {
+        private readonly IOptionsSnapshot<SteamApiOptions> steamOptions;
         private readonly ISteamClient steamClient;
 
-        public GameServerController(ISteamClient client)
+        public GameServerController(ISteamClient client, IOptionsSnapshot<SteamApiOptions> options)
         {
+            this.steamOptions = options;
             this.steamClient = client;
         }
 
@@ -35,10 +38,11 @@ namespace GameServerWebAPI.Controllers.V1
         public async Task<ActionResult<string>> Get([FromQuery] int limit = 100)
         {
             string servers = null;
+            //HttpContext.Request.Headers["acc"]
             try
             {
                 // TODO: Use Azure Key Vault for secrets
-                servers = await steamClient.GetServerList("ACCFDF4D1ACA9775A74119BF71609F6D", limit, "xml");
+                servers = await steamClient.GetServerList(steamOptions.Value.DeveloperApiKey, limit, steamOptions.Value.DefaultResponseFormat);
 
                 // TODO: Processing and filtering of results
             }
