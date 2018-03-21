@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using GameServerWebAPI.Controllers;
 using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
@@ -39,8 +41,10 @@ namespace GameServerWebAPI
             ConfigureApiOptions(services);
             ConfigureOpenApi(services);
             ConfigureHealth(services);
+            ConfigureVersioning(services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddHttpClient("Refit", options =>
             {
@@ -52,6 +56,23 @@ namespace GameServerWebAPI
             .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
             .AddServerErrorPolicyHandler(p => p.RetryAsync(3))
             .AddTypedClient(client => RestService.For<ISteamClient>(client));
+        }
+
+        private void ConfigureVersioning(IServiceCollection services)
+        {
+            services.AddApiVersioning(options => {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                // Includes headers "api-supported-versions" and "api-deprecated-versions"
+                options.ReportApiVersions = true;
+
+                // Alternative to attribute based versioning
+                //options.Conventions.Controller<GameServerController>()
+                //    .HasDeprecatedApiVersion(new ApiVersion(0, 9))
+                //    .HasApiVersion(1)
+                //    .AdvertisesApiVersion(2)
+                //    .Action(a => a.Get(default(int))).MapToApiVersion(1);
+            });
         }
 
         private void ConfigureApiOptions(IServiceCollection services)
