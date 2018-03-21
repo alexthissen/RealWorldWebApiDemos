@@ -38,6 +38,7 @@ namespace GameServerWebAPI
             var registry = services.AddPolicyRegistry();
             var timeout = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
 
+            // Options for particular external services
             services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
 
             ConfigureApiOptions(services);
@@ -48,7 +49,7 @@ namespace GameServerWebAPI
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddHttpClient("Refit", options =>
+            services.AddHttpClient("Steam", options =>
             {
                 options.BaseAddress = new Uri("https://api.steampowered.com/IGameServersService/");
                 //options.BaseAddress = new Uri("http://localhost:56338/");
@@ -128,6 +129,7 @@ namespace GameServerWebAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
                 {
+                    
                     Description = "DotNext SPb 2018 Real-world Web API",
                     DocExpansion = "list",
                     Title = "DotNext API",
