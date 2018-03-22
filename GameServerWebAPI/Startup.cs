@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using GameServerWebAPI.Controllers;
 using GameServerWebAPI.Proxies;
@@ -25,12 +26,32 @@ namespace GameServerWebAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+            if (env.IsDevelopment())
+            {
+                var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
+                if (appAssembly != null)
+                {
+                    builder.AddUserSecrets(appAssembly, optional: true);
+                }
+            }
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+
+            if (env.IsProduction())
+            {
+                builder.AddAzureKeyVault("https://realworldwebapikeyvault.vault.azure.net/");
+                Configuration = builder.Build();
+            }
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -53,6 +74,7 @@ namespace GameServerWebAPI
             {
                 options.BaseAddress = new Uri("https://api.steampowered.com/IGameServersService/");
                 //options.BaseAddress = new Uri("http://localhost:56338/");
+                //options.BaseAddress = new Uri(Configuration["SteamApiOptions:BaseUrl"]);
                 options.Timeout = TimeSpan.FromMilliseconds(15000);
                 options.DefaultRequestHeaders.Add("ClientFactory", "Check");
             })

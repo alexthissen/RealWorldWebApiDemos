@@ -9,5 +9,6 @@ namespace GameServerWebAPI
     {
         public string DeveloperApiKey { get; set; }
         public string DefaultResponseFormat { get; set; }
+        public string BaseUrl { get; set; }
     }
 }
