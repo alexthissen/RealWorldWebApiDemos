@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using GameServerWebAPI.Controllers;
-using GameServerWebAPI.Proxies;
+﻿using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using Polly;
 using Refit;
+using System;
+using System.Net.Http;
+using System.Reflection;
 
 namespace GameServerWebAPI
 {
@@ -48,7 +39,7 @@ namespace GameServerWebAPI
 
             if (env.IsProduction())
             {
-                builder.AddAzureKeyVault("https://realworldwebapikeyvault.vault.azure.net/");
+                builder.AddAzureKeyVault(Configuration["KeyVaultName"]);
                 Configuration = builder.Build();
             }
         }
@@ -72,9 +63,7 @@ namespace GameServerWebAPI
 
             services.AddHttpClient("Steam", options =>
             {
-                options.BaseAddress = new Uri("https://api.steampowered.com/IGameServersService/");
-                //options.BaseAddress = new Uri("http://localhost:56338/");
-                //options.BaseAddress = new Uri(Configuration["SteamApiOptions:BaseUrl"]);
+                options.BaseAddress = new Uri(Configuration["SteamApiOptions:BaseUrl"]);
                 options.Timeout = TimeSpan.FromMilliseconds(15000);
                 options.DefaultRequestHeaders.Add("ClientFactory", "Check");
             })
@@ -151,7 +140,7 @@ namespace GameServerWebAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
                 {
-                    
+                    ShowRequestHeaders = true,
                     Description = "DotNext SPb 2018 Real-world Web API",
                     DocExpansion = "list",
                     Title = "DotNext API",
