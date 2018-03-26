@@ -8,8 +8,8 @@ using Microsoft.Extensions.Options;
 
 namespace GameServerWebAPI.Controllers.V1
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiVersion("0.9", Deprecated = true)]
     [AdvertiseApiVersions("2.0")]

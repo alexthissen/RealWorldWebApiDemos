@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServerWebAPI", "GameSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39C38DDC-190E-452E-A23B-2D8EFA063D98}"
 	ProjectSection(SolutionItems) = preProject
+		GenerateClientSdk.ps1 = GenerateClientSdk.ps1
 		global.json = global.json
+		RealWorldWebAPIs.json = RealWorldWebAPIs.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.HealthChecks", "Extensions\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj", "{B4234094-0FAC-4878-B5CB-D46C043FBEBF}"
@@ -17,6 +19,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.HealthChecks", "Extensions\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj", "{FD01E4E5-5033-4B63-B2A9-B5EA5F03AE5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.Http.Polly", "Extensions\Microsoft.Extensions.Http.Polly\Microsoft.Extensions.Http.Polly.csproj", "{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServerWebAPI.ClientSdk", "GameServerWebAPI.ClientSdk\GameServerWebAPI.ClientSdk.csproj", "{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +80,18 @@ Global
 		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x64.Build.0 = Release|Any CPU
 		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x86.ActiveCfg = Release|Any CPU
 		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x86.Build.0 = Release|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|x64.Build.0 = Debug|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|x86.Build.0 = Debug|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x64.ActiveCfg = Release|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x64.Build.0 = Release|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x86.ActiveCfg = Release|Any CPU
+		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
