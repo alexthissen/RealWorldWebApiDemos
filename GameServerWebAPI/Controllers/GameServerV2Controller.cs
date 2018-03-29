@@ -10,7 +10,6 @@ namespace GameServerWebAPI.Controllers.V2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("2.0")]
-    [AdvertiseApiVersions("1.0")]
     public class GameServerController : ControllerBase
     {
         [HttpGet]
