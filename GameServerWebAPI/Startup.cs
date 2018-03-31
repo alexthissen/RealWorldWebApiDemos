@@ -12,6 +12,7 @@ using Refit;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GameServerWebAPI
 {
@@ -118,8 +119,8 @@ namespace GameServerWebAPI
         private void ConfigureHealth(IServiceCollection services)
         {
             services.AddHealthChecks(checks =>
-            {
-                checks
+            { 
+                checks //.AddValueTaskCheck("check", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("It's okay")));
                     .AddUrlCheck("https://api.steampowered.com")
                     .AddHealthCheckGroup(
                         "memory",

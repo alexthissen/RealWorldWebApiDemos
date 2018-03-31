@@ -49,7 +49,6 @@ namespace Microsoft.AspNetCore.HealthChecks
 
                 context.Response.Headers.Add("content-type", "application/json");
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = status.ToString() }));
-                //await context.Response.WriteAsync(JsonConvert.SerializeObject(result.Results.Select(r => new { Check = r.Key, Status = r.Value.CheckStatus, r.Value.Description })));
 
                 return;
             }

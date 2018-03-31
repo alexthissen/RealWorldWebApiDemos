@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		GenerateClientSdk.ps1 = GenerateClientSdk.ps1
 		global.json = global.json
+		Local.testsettings = Local.testsettings
 		RealWorldWebAPIs.json = RealWorldWebAPIs.json
 	EndProjectSection
 EndProject
@@ -21,6 +22,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.Http.Polly", "Extensions\Microsoft.Extensions.Http.Polly\Microsoft.Extensions.Http.Polly.csproj", "{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServerWebAPI.ClientSdk", "GameServerWebAPI.ClientSdk\GameServerWebAPI.ClientSdk.csproj", "{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerWebAPI.WebTests", "GameServerWebAPI.WebTests\GameServerWebAPI.WebTests.csproj", "{1952385F-6F72-4C8E-8684-DD72ACADFB88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerWebAPI.IntegrationTests", "GameServerWebAPI.IntegrationTests\GameServerWebAPI.IntegrationTests.csproj", "{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +97,30 @@ Global
 		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x64.Build.0 = Release|Any CPU
 		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x86.ActiveCfg = Release|Any CPU
 		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Release|x86.Build.0 = Release|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Debug|x64.Build.0 = Debug|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Debug|x86.Build.0 = Debug|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Release|x64.ActiveCfg = Release|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Release|x64.Build.0 = Release|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Release|x86.ActiveCfg = Release|Any CPU
+		{1952385F-6F72-4C8E-8684-DD72ACADFB88}.Release|x86.Build.0 = Release|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Debug|x64.Build.0 = Debug|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Debug|x86.Build.0 = Debug|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Release|x64.ActiveCfg = Release|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Release|x64.Build.0 = Release|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Release|x86.ActiveCfg = Release|Any CPU
+		{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
