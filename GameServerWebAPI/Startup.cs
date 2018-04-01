@@ -119,8 +119,8 @@ namespace GameServerWebAPI
         private void ConfigureHealth(IServiceCollection services)
         {
             services.AddHealthChecks(checks =>
-            { 
-                checks //.AddValueTaskCheck("check", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("It's okay")));
+            {
+                checks 
                     .AddUrlCheck("https://api.steampowered.com")
                     .AddHealthCheckGroup(
                         "memory",
@@ -151,10 +151,10 @@ namespace GameServerWebAPI
             }
             else
             {
+                app.UseHttpsRedirection();
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
+            
             app.UseMvcWithDefaultRoute();
         }
     }

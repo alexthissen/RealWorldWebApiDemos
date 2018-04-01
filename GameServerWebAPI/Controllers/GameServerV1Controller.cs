@@ -45,7 +45,7 @@ namespace GameServerWebAPI.Controllers.V1
         public async Task<ActionResult<string>> Get([FromQuery] int limit = 100)
         {
             string servers = null;
-            //HttpContext.Request.Headers["acc"]
+            
             try
             {
                 // TODO: Use Azure Key Vault for secrets
