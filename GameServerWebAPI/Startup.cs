@@ -120,16 +120,22 @@ namespace GameServerWebAPI
         {
             services.AddHealthChecks(checks =>
             {
-                checks 
-                    .AddUrlCheck("https://api.steampowered.com")
-                    .AddHealthCheckGroup(
-                        "memory",
-                        group => group
-                            .AddPrivateMemorySizeCheck(1000) // Maximum private memory
-                            .AddVirtualMemorySizeCheck(2000)
-                            .AddWorkingSetCheck(1000),
-                        CheckStatus.Unhealthy
+                checks
+                    .AddUrlCheck(Configuration["SteamApiOptions:BaseUrl"],
+                        response =>
+                        {
+                            var status = response.StatusCode == System.Net.HttpStatusCode.NotFound ? CheckStatus.Healthy : CheckStatus.Unhealthy;
+                            return new ValueTask<IHealthCheckResult>(HealthCheckResult.FromStatus(status, "Steam API base URL reachable."));
+                        }
                     );
+                    //.AddHealthCheckGroup(
+                    //    "memory",
+                    //    group => group
+                    //        .AddPrivateMemorySizeCheck(1000) // Maximum private memory
+                    //        .AddVirtualMemorySizeCheck(2000)
+                    //        .AddWorkingSetCheck(1000),
+                    //    CheckStatus.Unhealthy
+                    //);
             });
         }
 
@@ -139,6 +145,8 @@ namespace GameServerWebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // Do not expose Swagger interface in production
                 app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
                 {
                     ShowRequestHeaders = true,

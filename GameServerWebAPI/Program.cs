@@ -22,6 +22,7 @@ namespace GameServerWebAPI
         {
             //return WebHost.CreateDefaultBuilder();
             var builder = new WebHostBuilder() 
+                .UseApplicationInsights()
                 .UseKestrel((builderContext, options) =>
                 {
                     options.Configure(builderContext.Configuration.GetSection("Kestrel"));
