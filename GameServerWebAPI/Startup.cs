@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
+using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
 using Polly;
 using Refit;
@@ -58,6 +59,8 @@ namespace GameServerWebAPI
             ConfigureOpenApi(services);
             ConfigureHealth(services);
             ConfigureVersioning(services);
+
+            services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -128,6 +131,7 @@ namespace GameServerWebAPI
                             return new ValueTask<IHealthCheckResult>(HealthCheckResult.FromStatus(status, "Steam API base URL reachable."));
                         }
                     );
+                // TODO: Use feature toggle to add this functionality
                     //.AddHealthCheckGroup(
                     //    "memory",
                     //    group => group
@@ -140,8 +144,17 @@ namespace GameServerWebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
+            
+            // Next call not required for .NET Core and Azure App Services
+            //loggerFactory.AddAzureWebAppDiagnostics();
+
+            loggerFactory.AddEventSourceLogger(); // ETW on Windows, dev/null on other platforms
+            loggerFactory.AddConsole();
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
