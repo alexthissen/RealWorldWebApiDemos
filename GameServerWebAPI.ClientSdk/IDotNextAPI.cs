@@ -6,6 +6,7 @@
 
 namespace GameServerWebAPI.ClientSdk
 {
+    using Models;
     using Newtonsoft.Json;
 
     /// <summary>

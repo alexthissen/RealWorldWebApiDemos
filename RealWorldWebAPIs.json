@@ -40,7 +40,10 @@
           "200": {
             "description": "List of online game servers.",
             "schema": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameServerInfo"
+              }
             },
             "x-nullable": true
           },
@@ -51,7 +54,81 @@
       }
     }
   },
-  "definitions": {},
+  "definitions": {
+    "GameServerInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gameport",
+        "appid",
+        "region",
+        "players",
+        "max_players",
+        "bots",
+        "secure",
+        "dedicated"
+      ],
+      "properties": {
+        "addr": {
+          "type": "string"
+        },
+        "gameport": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "appid": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gamedir": {
+          "type": "string"
+        },
+        "steamid": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "region": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "players": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "max_players": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bots": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "map": {
+          "type": "string"
+        },
+        "secure": {
+          "type": "boolean"
+        },
+        "dedicated": {
+          "type": "boolean"
+        },
+        "os": {
+          "type": "string"
+        },
+        "gametype": {
+          "type": "string"
+        }
+      }
+    }
+  },
   "parameters": {},
   "responses": {},
   "securityDefinitions": {}

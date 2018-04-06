@@ -28,6 +28,7 @@ namespace GameServerWebAPI.V2.IntegrationTests
                     services.AddTransient<ISteamClient, MockSteamClient>();
                 });
 
+            // Create test stack
             server = new TestServer(builder);
             client = server.CreateClient();
             proxy = new DotNextAPI(client);

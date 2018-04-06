@@ -7,6 +7,7 @@
 namespace GameServerWebAPI.ClientSdk
 {
     using Microsoft.Rest;
+    using Models;
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
@@ -35,6 +36,6 @@ namespace GameServerWebAPI.ClientSdk
         /// <exception cref="Microsoft.Rest.SerializationException">
         /// Thrown when unable to deserialize the response
         /// </exception>
-        Task<HttpOperationResponse<string>> GetWithHttpMessagesAsync(int limit = 100, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<GameServerInfo>>> GetWithHttpMessagesAsync(int limit = 100, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

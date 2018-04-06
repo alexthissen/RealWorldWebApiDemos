@@ -7,6 +7,7 @@
 namespace GameServerWebAPI.ClientSdk
 {
     using Microsoft.Rest;
+    using Models;
     using Newtonsoft.Json;
     using System.Collections;
     using System.Collections.Generic;
@@ -66,7 +67,7 @@ namespace GameServerWebAPI.ClientSdk
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<string>> GetWithHttpMessagesAsync(int limit = 100, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<GameServerInfo>>> GetWithHttpMessagesAsync(int limit = 100, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -147,7 +148,7 @@ namespace GameServerWebAPI.ClientSdk
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<string>();
+            var _result = new HttpOperationResponse<IList<GameServerInfo>>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
@@ -156,7 +157,7 @@ namespace GameServerWebAPI.ClientSdk
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<string>(_responseContent, Client.DeserializationSettings);
+                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<IList<GameServerInfo>>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {

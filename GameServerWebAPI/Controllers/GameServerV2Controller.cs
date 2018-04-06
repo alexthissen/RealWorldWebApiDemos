@@ -49,7 +49,6 @@ namespace GameServerWebAPI.Controllers.V2
 
             try
             {
-                //EventId id = new EventId()
                 logger.LogInformation("Acquiring server list with {SearchLimit} results.", limit);
 
                 serverList = await steamClient.GetServerList(steamOptions.Value.DeveloperApiKey, limit, steamOptions.Value.DefaultResponseFormat);

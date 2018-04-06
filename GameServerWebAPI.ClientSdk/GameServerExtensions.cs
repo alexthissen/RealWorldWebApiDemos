@@ -6,6 +6,9 @@
 
 namespace GameServerWebAPI.ClientSdk
 {
+    using Models;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -23,7 +26,7 @@ namespace GameServerWebAPI.ClientSdk
             /// <param name='limit'>
             /// Maximum number of servers to retrieve.
             /// </param>
-            public static string Get(this IGameServer operations, int limit = 100)
+            public static IList<GameServerInfo> Get(this IGameServer operations, int limit = 100)
             {
                 return operations.GetAsync(limit).GetAwaiter().GetResult();
             }
@@ -40,7 +43,7 @@ namespace GameServerWebAPI.ClientSdk
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<string> GetAsync(this IGameServer operations, int limit = 100, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<GameServerInfo>> GetAsync(this IGameServer operations, int limit = 100, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.GetWithHttpMessagesAsync(limit, null, cancellationToken).ConfigureAwait(false))
                 {
