@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
+using NSwag.SwaggerGeneration.Processors;
 using Polly;
 using Refit;
 using System;
@@ -79,7 +80,7 @@ namespace GameServerWebAPI
         private void ConfigureVersioning(IServiceCollection services)
         {
             services.AddApiVersioning(options => {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.DefaultApiVersion = new ApiVersion(2, 0);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 // Includes headers "api-supported-versions" and "api-deprecated-versions"
                 options.ReportApiVersions = true;
@@ -116,7 +117,7 @@ namespace GameServerWebAPI
 
         private void ConfigureOpenApi(IServiceCollection services)
         {
-            services.AddSwagger();
+            //services.AddSwagger();
         }
 
         private void ConfigureHealth(IServiceCollection services)
@@ -162,12 +163,39 @@ namespace GameServerWebAPI
                 // Do not expose Swagger interface in production
                 app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
                 {
+                    SwaggerRoute = "/swagger/v1/swagger.json",
                     ShowRequestHeaders = true,
                     Description = "DotNext SPb 2018 Real-world Web API",
                     DocExpansion = "list",
                     Title = "DotNext API",
                     Version = "1.0",
-                    UseJsonEditor = true
+                    UseJsonEditor = true,
+                    OperationProcessors =
+                    {
+                        new ApiVersionProcessor() { IncludedVersions = { "1.0" }}
+                    },
+                    PostProcess = document =>
+                    {
+                        document.BasePath = "/";
+                    }
+                });
+                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
+                {
+                    SwaggerRoute = "/swagger/v2/swagger.json",
+                    ShowRequestHeaders = true,
+                    Description = "DotNext SPb 2018 Real-world Web API",
+                    DocExpansion = "list",
+                    Title = "DotNext API",
+                    Version = "2.0",
+                    UseJsonEditor = true,
+                    OperationProcessors =
+                    {
+                        new ApiVersionProcessor() { IncludedVersions = { "2.0" }}
+                    },
+                    PostProcess = document =>
+                    {
+                        document.BasePath = "/";
+                    }
                 });
             }
             else

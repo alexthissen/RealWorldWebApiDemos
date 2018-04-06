@@ -37,7 +37,7 @@ namespace GameServerWebAPI.V2.IntegrationTests
         public async Task OpenApiDocumentationAvailable()
         {
             // Act
-            var response = await client.GetAsync("/swagger/index.html?url=/swagger/v1/swagger.json");
+            var response = await client.GetAsync("/swagger/index.html?url=/swagger/v2/swagger.json");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -46,13 +46,22 @@ namespace GameServerWebAPI.V2.IntegrationTests
         }
 
         [TestMethod]
-        public async Task GetV2IncludesVersioningHeaders()
+        public async Task GetGameServerListV2_WithoutQueryString()
         {
             // Act
-            var response = await proxy.GameServer.Get2Async(100);    
+            var response = await proxy.GameServer.GetAsync();    
 
             // Assert
-            // TODO: Add asserts to verify result
         }
+
+        [TestMethod]
+        public async Task GetGameServerListV2_WithQueryString()
+        {
+            // Act
+            var response = await proxy.GameServer.GetAsync(100);
+
+            // Assert
+        }
+
     }
 }

@@ -14,20 +14,28 @@ namespace GameServerWebAPI.ClientSdk
     /// </summary>
     public static partial class GameServerExtensions
     {
+            /// <summary>
+            /// Retrieve a list of online game servers.
+            /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='limit'>
+            /// Maximum number of servers to retrieve.
             /// </param>
             public static string Get(this IGameServer operations, int limit = 100)
             {
                 return operations.GetAsync(limit).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Retrieve a list of online game servers.
+            /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='limit'>
+            /// Maximum number of servers to retrieve.
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
@@ -35,40 +43,6 @@ namespace GameServerWebAPI.ClientSdk
             public static async Task<string> GetAsync(this IGameServer operations, int limit = 100, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.GetWithHttpMessagesAsync(limit, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// Retrieve a list of online game servers.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='limit'>
-            /// Maximum number of servers to retrieve.
-            /// </param>
-            public static string Get2(this IGameServer operations, int limit = 100)
-            {
-                return operations.Get2Async(limit).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Retrieve a list of online game servers.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='limit'>
-            /// Maximum number of servers to retrieve.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<string> Get2Async(this IGameServer operations, int limit = 100, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.Get2WithHttpMessagesAsync(limit, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

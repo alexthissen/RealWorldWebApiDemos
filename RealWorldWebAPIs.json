@@ -4,7 +4,7 @@
   "info": {
     "title": "DotNext API",
     "description": "DotNext SPb 2018 Real-world Web API",
-    "version": "1.0"
+    "version": "2.0"
   },
   "host": "localhost:44305",
   "basePath": "/",
@@ -23,38 +23,8 @@
         "tags": [
           "GameServer"
         ],
-        "operationId": "GameServer_Get",
-        "parameters": [
-          {
-            "type": "integer",
-            "name": "limit",
-            "in": "query",
-            "x-nullable": false,
-            "format": "int32",
-            "default": 100
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/v1.0/GameServer": {
-      "get": {
-        "tags": [
-          "GameServer"
-        ],
         "summary": "Retrieve a list of online game servers.",
-        "operationId": "GameServer_Get2",
+        "operationId": "GameServer_Get",
         "parameters": [
           {
             "type": "integer",
