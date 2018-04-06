@@ -146,7 +146,7 @@ namespace GameServerWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
+            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
             
             // Next call not required for .NET Core and Azure App Services
             //loggerFactory.AddAzureWebAppDiagnostics();

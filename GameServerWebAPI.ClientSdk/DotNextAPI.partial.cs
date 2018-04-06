@@ -7,6 +7,7 @@ namespace GameServerWebAPI.ClientSdk
 {
     public partial class DotNextAPI
     {
+        // TODO: Regenerate client code
         public DotNextAPI(HttpClient client): base(client, false)
         {
             Initialize();

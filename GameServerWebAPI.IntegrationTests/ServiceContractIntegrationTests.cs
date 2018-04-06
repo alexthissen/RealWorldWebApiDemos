@@ -1,4 +1,5 @@
 using GameServerWebAPI.ClientSdk;
+using GameServerWebAPI.IntegrationTests;
 using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -7,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace GameServerWebAPI.IntegrationTests
+namespace GameServerWebAPI.V2.IntegrationTests
 {
     [TestClass]
     public class ServiceContractIntegrationTests
@@ -45,10 +46,13 @@ namespace GameServerWebAPI.IntegrationTests
         }
 
         [TestMethod]
-        public async Task GetV1IncludesVersioningHeaders()
+        public async Task GetV2IncludesVersioningHeaders()
         {
             // Act
             var response = await proxy.GameServer.Get2Async(100);    
+
+            // Assert
+            // TODO: Add asserts to verify result
         }
     }
 }
