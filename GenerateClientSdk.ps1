@@ -7,6 +7,7 @@ dotnet new sln -n GameServerSDK --force
 dotnet new classlib -o GameServerWebAPI.ClientSdk --force
 dotnet sln GameServerSDK.sln add GameServerWebAPI.ClientSdk
 cd GameServerWebAPI.ClientSdk
+del class1.cs
 
 dotnet add package Microsoft.AspNetCore --version 2.1-preview1-final
 dotnet add package Microsoft.Rest.ClientRuntime --version 2.3.11

@@ -1,7 +1,9 @@
-﻿using Refit;
+﻿using GameServerWebAPI.Model;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace GameServerWebAPI.Proxies
@@ -10,6 +12,6 @@ namespace GameServerWebAPI.Proxies
     public interface ISteamClient
     {
         [Get("/GetServerList/v1")]
-        Task<string> GetServerList(string key, int limit, string format = "json");
+        Task<ResponseWrapper> GetServerList(string key, int limit, string format = "json");
     }
 }

@@ -64,6 +64,7 @@ namespace GameServerWebAPI
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc()
+                .AddXmlSerializerFormatters()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddHttpClient("Steam", options =>
@@ -203,7 +204,7 @@ namespace GameServerWebAPI
                 app.UseHttpsRedirection();
                 app.UseHsts();
             }
-            
+
             app.UseMvcWithDefaultRoute();
         }
     }

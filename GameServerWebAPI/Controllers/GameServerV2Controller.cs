@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using GameServerWebAPI.Model;
 using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly.Timeout;
@@ -38,24 +40,24 @@ namespace GameServerWebAPI.Controllers.V2
         /// <response code="200">The list was successfully retrieved.</response>
         /// <response code="400">The request parameters were invalid or a timeout while retrieving list occurred.</response>
         [HttpGet]
-        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(IEnumerable<GameServerInfo>), 200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<string>> Get([FromQuery] int limit = 100)
+        [Produces("application/xml", "application/json")]
+        public async Task<ActionResult<IEnumerable<GameServerInfo>>> Get([FromQuery] int limit = 100)
         {
-            string servers = null;
-            
+            ResponseWrapper serverList = null;
+
             try
             {
                 //EventId id = new EventId()
                 logger.LogInformation("Acquiring server list with {SearchLimit} results.", limit);
 
-                servers = await steamClient.GetServerList(steamOptions.Value.DeveloperApiKey, limit, steamOptions.Value.DefaultResponseFormat);
-
+                serverList = await steamClient.GetServerList(steamOptions.Value.DeveloperApiKey, limit, steamOptions.Value.DefaultResponseFormat);
+                
                 // TODO: Processing and filtering of results
             }
             catch (HttpRequestException ex)
             {
-                // TODO: Structured logging
                 logger.LogWarning(ex, "Http request failed.");
                 return StatusCode(StatusCodes.Status502BadGateway, "Failed request to external resource.");
             }
@@ -72,7 +74,7 @@ namespace GameServerWebAPI.Controllers.V2
                 // Exception shielding for all other exceptions
                 return StatusCode(StatusCodes.Status500InternalServerError, "Request could not be processed.");
             }
-            return Ok(servers);
+            return Ok(serverList.Response.Servers);
         }
     }
 }
