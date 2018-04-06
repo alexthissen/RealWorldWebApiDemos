@@ -1,4 +1,5 @@
-﻿using GameServerWebAPI.Proxies;
+﻿using FeatureToggle.Internal;
+using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace GameServerWebAPI
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfigurationRoot Configuration { get; }
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -55,6 +56,9 @@ namespace GameServerWebAPI
 
             // Options for particular external services
             services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
+
+            var provider = new AppSettingsProvider { Configuration = Configuration };
+            services.AddSingleton(new AdvancedHealthFeature { ToggleValueProvider = provider });
 
             ConfigureApiOptions(services);
             ConfigureOpenApi(services);
@@ -118,7 +122,7 @@ namespace GameServerWebAPI
 
         private void ConfigureOpenApi(IServiceCollection services)
         {
-            //services.AddSwagger();
+            services.AddSwagger();
         }
 
         private void ConfigureHealth(IServiceCollection services)
@@ -133,15 +137,20 @@ namespace GameServerWebAPI
                             return new ValueTask<IHealthCheckResult>(HealthCheckResult.FromStatus(status, "Steam API base URL reachable."));
                         }
                     );
-                // TODO: Use feature toggle to add this functionality
-                    //.AddHealthCheckGroup(
-                    //    "memory",
-                    //    group => group
-                    //        .AddPrivateMemorySizeCheck(1000) // Maximum private memory
-                    //        .AddVirtualMemorySizeCheck(2000)
-                    //        .AddWorkingSetCheck(1000),
-                    //    CheckStatus.Unhealthy
-                    //);
+
+                // Use feature toggle to add this functionality
+                var feature = services.BuildServiceProvider().GetRequiredService<AdvancedHealthFeature>();
+                if (feature.FeatureEnabled)
+                {
+                    checks.AddHealthCheckGroup(
+                        "memory",
+                        group => group
+                            .AddPrivateMemorySizeCheck(1000) // Maximum private memory
+                            .AddVirtualMemorySizeCheck(2000)
+                            .AddWorkingSetCheck(1000),
+                        CheckStatus.Unhealthy
+                    );
+                }
             });
         }
 
