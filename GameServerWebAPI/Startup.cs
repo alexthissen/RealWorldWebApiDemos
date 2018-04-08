@@ -13,6 +13,7 @@ using NSwag.SwaggerGeneration.Processors;
 using Polly;
 using Refit;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -51,8 +52,9 @@ namespace GameServerWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var registry = services.AddPolicyRegistry();
-            var timeout = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
+            var policyRegistry = services.AddPolicyRegistry();
+            var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
+            policyRegistry.Add("timeout", timeoutPolicy);
 
             // Options for particular external services
             services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
@@ -152,6 +154,14 @@ namespace GameServerWebAPI
                     );
                 }
             });
+
+            services.AddHsts(
+                options =>
+                {
+                    options.MaxAge = TimeSpan.FromDays(100);
+                    options.IncludeSubDomains = true;
+                    options.Preload = true;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -173,24 +183,6 @@ namespace GameServerWebAPI
                 // Do not expose Swagger interface in production
                 app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
                 {
-                    SwaggerRoute = "/swagger/v1/swagger.json",
-                    ShowRequestHeaders = true,
-                    Description = "DotNext SPb 2018 Real-world Web API",
-                    DocExpansion = "list",
-                    Title = "DotNext API",
-                    Version = "1.0",
-                    UseJsonEditor = true,
-                    OperationProcessors =
-                    {
-                        new ApiVersionProcessor() { IncludedVersions = { "1.0" }}
-                    },
-                    PostProcess = document =>
-                    {
-                        document.BasePath = "/";
-                    }
-                });
-                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
-                {
                     SwaggerRoute = "/swagger/v2/swagger.json",
                     ShowRequestHeaders = true,
                     Description = "DotNext SPb 2018 Real-world Web API",
@@ -201,6 +193,24 @@ namespace GameServerWebAPI
                     OperationProcessors =
                     {
                         new ApiVersionProcessor() { IncludedVersions = { "2.0" }}
+                    },
+                    PostProcess = document =>
+                    {
+                        document.BasePath = "/";
+                    }
+                });
+                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
+                {
+                    SwaggerRoute = "/swagger/v1/swagger.json",
+                    ShowRequestHeaders = true,
+                    Description = "DotNext SPb 2018 Real-world Web API",
+                    DocExpansion = "list",
+                    Title = "DotNext API",
+                    Version = "1.0",
+                    UseJsonEditor = true,
+                    OperationProcessors =
+                    {
+                        new ApiVersionProcessor() { IncludedVersions = { "1.0" }}
                     },
                     PostProcess = document =>
                     {

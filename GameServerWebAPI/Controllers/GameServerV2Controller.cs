@@ -18,6 +18,7 @@ namespace GameServerWebAPI.Controllers.V2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("2.0")]
+    [Produces("application/xml", "application/json")]
     public class GameServerController : ControllerBase
     {
         private readonly IOptionsSnapshot<SteamApiOptions> steamOptions;
@@ -42,7 +43,6 @@ namespace GameServerWebAPI.Controllers.V2
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GameServerInfo>), 200)]
         [ProducesResponseType(400)]
-        [Produces("application/xml", "application/json")]
         public async Task<ActionResult<IEnumerable<GameServerInfo>>> Get([FromQuery] int limit = 100)
         {
             ResponseWrapper serverList = null;
@@ -67,7 +67,6 @@ namespace GameServerWebAPI.Controllers.V2
             }
             catch (Exception ex)
             {
-                // TODO: Proper exception handling and logging strategy
                 logger.LogError(ex, "Unknown exception occurred while retrieving server list");
 
                 // Exception shielding for all other exceptions
