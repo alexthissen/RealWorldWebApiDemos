@@ -1,7 +1,7 @@
 # TODO: Parametrize URL and name 
-iwr https://localhost:44305/swagger/v2/swagger.json -o RealWorldWebAPIs.json
+iwr https://localhost:44305/swagger/v1/swagger.json -o RealWorldWebAPIs.v1.json
+iwr https://localhost:44305/swagger/v2/swagger.json -o RealWorldWebAPIs.v2.json
 autorest --input-file=RealWorldWebAPIs.json --csharp --output-folder=GameServerWebAPI.ClientSdk --namespace=GameServerWebAPI.ClientSdk
-# Fix basePath address
 
 dotnet new sln -n GameServerSDK --force
 dotnet new classlib -o GameServerWebAPI.ClientSdk --force

@@ -12,7 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		GenerateClientSdk.ps1 = GenerateClientSdk.ps1
 		global.json = global.json
 		Local.testsettings = Local.testsettings
-		RealWorldWebAPIs.json = RealWorldWebAPIs.json
+		RealWorldWebAPIs.v1.json = RealWorldWebAPIs.v1.json
+		RealWorldWebAPIs.v2.json = RealWorldWebAPIs.v2.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.HealthChecks", "Extensions\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj", "{B4234094-0FAC-4878-B5CB-D46C043FBEBF}"
@@ -25,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServerWebAPI.ClientSdk"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerWebAPI.WebTests", "GameServerWebAPI.WebTests\GameServerWebAPI.WebTests.csproj", "{1952385F-6F72-4C8E-8684-DD72ACADFB88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerWebAPI.IntegrationTests", "GameServerWebAPI.IntegrationTests\GameServerWebAPI.IntegrationTests.csproj", "{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServerWebAPI.IntegrationTests", "GameServerWebAPI.IntegrationTests\GameServerWebAPI.IntegrationTests.csproj", "{54401DCC-7913-4EF0-A9F9-C2B4BEE7D88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
