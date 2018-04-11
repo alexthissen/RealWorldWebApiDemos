@@ -53,7 +53,7 @@ namespace GameServerWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             var policyRegistry = services.AddPolicyRegistry();
-            var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
+            var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500));
             policyRegistry.Add("timeout", timeoutPolicy);
 
             // Options for particular external services
@@ -67,7 +67,10 @@ namespace GameServerWebAPI
             ConfigureHealth(services);
             ConfigureVersioning(services);
 
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddApplicationInsightsTelemetry(options => {
+                options.DeveloperMode = true;
+                options.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
+            });
 
             services.AddMvc()
                 .AddXmlSerializerFormatters()
@@ -79,6 +82,7 @@ namespace GameServerWebAPI
                 options.Timeout = TimeSpan.FromMilliseconds(15000);
                 options.DefaultRequestHeaders.Add("ClientFactory", "Check");
             })
+            //.AddPolicyHandlerFromRegistry("timeout")
             .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
             .AddServerErrorPolicyHandler(p => p.RetryAsync(3))
             .AddTypedClient(client => RestService.For<ISteamClient>(client));
@@ -147,9 +151,9 @@ namespace GameServerWebAPI
                     checks.AddHealthCheckGroup(
                         "memory",
                         group => group
-                            .AddPrivateMemorySizeCheck(1000) // Maximum private memory
-                            .AddVirtualMemorySizeCheck(2000)
-                            .AddWorkingSetCheck(1000),
+                            .AddPrivateMemorySizeCheck(2000000) // Maximum private memory
+                            .AddVirtualMemorySizeCheck(3000000)
+                            .AddWorkingSetCheck(2000000),
                         CheckStatus.Unhealthy
                     );
                 }
@@ -181,41 +185,39 @@ namespace GameServerWebAPI
                 app.UseDeveloperExceptionPage();
 
                 // Do not expose Swagger interface in production
-                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
+                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
                 {
-                    SwaggerRoute = "/swagger/v2/swagger.json",
-                    ShowRequestHeaders = true,
-                    Description = "DotNext SPb 2018 Real-world Web API",
-                    DocExpansion = "list",
-                    Title = "DotNext API",
-                    Version = "2.0",
-                    UseJsonEditor = true,
-                    OperationProcessors =
-                    {
-                        new ApiVersionProcessor() { IncludedVersions = { "2.0" }}
-                    },
-                    PostProcess = document =>
-                    {
-                        document.BasePath = "/";
-                    }
+                    settings.SwaggerRoute = "/swagger/v2/swagger.json";
+                    settings.ShowRequestHeaders = true;
+                    settings.DocExpansion = "list";
+                    settings.UseJsonEditor = true;
+                    settings.PostProcess = document =>
+                        {
+                            document.BasePath = "/";
+                        };
+                    settings.GeneratorSettings.Title = "DotNext API";
+                    settings.GeneratorSettings.Description = "DotNext SPb 2018 Real-world Web API";
+                    settings.GeneratorSettings.Version = "2.0";
+                    settings.GeneratorSettings.OperationProcessors.Add(
+                        new ApiVersionProcessor() { IncludedVersions = { "2.0" } }
+                    );
                 });
-                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings()
+                app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
                 {
-                    SwaggerRoute = "/swagger/v1/swagger.json",
-                    ShowRequestHeaders = true,
-                    Description = "DotNext SPb 2018 Real-world Web API",
-                    DocExpansion = "list",
-                    Title = "DotNext API",
-                    Version = "1.0",
-                    UseJsonEditor = true,
-                    OperationProcessors =
-                    {
-                        new ApiVersionProcessor() { IncludedVersions = { "1.0" }}
-                    },
-                    PostProcess = document =>
+                    settings.SwaggerRoute = "/swagger/v1/swagger.json";
+                    settings.ShowRequestHeaders = true;
+                    settings.DocExpansion = "list";
+                    settings.UseJsonEditor = true;
+                    settings.PostProcess = document =>
                     {
                         document.BasePath = "/";
-                    }
+                    };
+                    settings.GeneratorSettings.Description = "DotNext SPb 2018 Real-world Web API";
+                    settings.GeneratorSettings.Title = "DotNext API";
+                    settings.GeneratorSettings.Version = "1.0";
+                    settings.GeneratorSettings.OperationProcessors.Add(
+                        new ApiVersionProcessor() { IncludedVersions = { "1.0" } }
+                    );
                 });
             }
             else
