@@ -62,7 +62,7 @@ namespace GameServerWebAPI.Controllers.V2
             }
             catch (TimeoutRejectedException ex)
             {
-                logger.LogWarning(ex, "Timeout occurred when retrieving server list");
+                logger.LogWarning(ex, "Timeout occurred when retrieving server list for {SearchLimit} items.", limit);
                 return StatusCode(StatusCodes.Status504GatewayTimeout, "Timeout on external web request.");
             }
             catch (Exception ex)
