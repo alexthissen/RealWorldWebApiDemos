@@ -7,4 +7,6 @@ using System.Threading.Tasks;
 namespace GameServerWebAPI
 {
     public class AdvancedHealthFeature : SimpleFeatureToggle { }
+    public class PlayerBanningFeature : AlwaysOffFeatureToggle { }
+    public class ServerDetectionFeature : AlwaysOnFeatureToggle { }
 }

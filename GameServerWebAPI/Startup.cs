@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.Processors;
 using Polly;
+using Polly.Registry;
 using Refit;
 using System;
 using System.Net;
@@ -22,7 +23,8 @@ namespace GameServerWebAPI
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; }
+        public readonly IConfigurationRoot Configuration;
+        public readonly IPolicyRegistry<string> policyRegistry;
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -59,33 +61,58 @@ namespace GameServerWebAPI
             // Options for particular external services
             services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
 
-            var provider = new AppSettingsProvider { Configuration = Configuration };
-            services.AddSingleton(new AdvancedHealthFeature { ToggleValueProvider = provider });
-
+            ConfigureFeatures(services);
             ConfigureApiOptions(services);
             ConfigureOpenApi(services);
             ConfigureHealth(services);
             ConfigureVersioning(services);
-
-            services.AddApplicationInsightsTelemetry(options => {
-                options.DeveloperMode = true;
-                options.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
-            });
+            ConfigureTelemetry(services);
+            ConfigureTypedClients(services);
+            ConfigureSecurity(services);
 
             services.AddMvc()
                 .AddXmlSerializerFormatters()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+        }
 
+        private void ConfigureSecurity(IServiceCollection services)
+        {
+            services.AddHsts(
+                options =>
+                {
+                    options.MaxAge = TimeSpan.FromDays(100);
+                    options.IncludeSubDomains = true;
+                    options.Preload = true;
+                });
+        }
+
+        private void ConfigureTypedClients(IServiceCollection services)
+        {
             services.AddHttpClient("Steam", options =>
             {
                 options.BaseAddress = new Uri(Configuration["SteamApiOptions:BaseUrl"]);
                 options.Timeout = TimeSpan.FromMilliseconds(15000);
                 options.DefaultRequestHeaders.Add("ClientFactory", "Check");
             })
-            //.AddPolicyHandlerFromRegistry("timeout")
-            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
-            .AddServerErrorPolicyHandler(p => p.RetryAsync(3))
-            .AddTypedClient(client => RestService.For<ISteamClient>(client));
+                        //.AddPolicyHandlerFromRegistry("timeout")
+                        .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
+                        .AddTransientHttpErrorPolicy(p => p.RetryAsync(3))
+                        .AddTypedClient(client => RestService.For<ISteamClient>(client));
+        }
+
+        private void ConfigureTelemetry(IServiceCollection services)
+        {
+            services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.DeveloperMode = true;
+                options.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
+            });
+        }
+
+        private void ConfigureFeatures(IServiceCollection services)
+        {
+            var provider = new AppSettingsProvider { Configuration = this.Configuration };
+            services.AddSingleton(new AdvancedHealthFeature { ToggleValueProvider = provider });
         }
 
         private void ConfigureVersioning(IServiceCollection services)
@@ -151,21 +178,13 @@ namespace GameServerWebAPI
                     checks.AddHealthCheckGroup(
                         "memory",
                         group => group
-                            .AddPrivateMemorySizeCheck(2000000) // Maximum private memory
-                            .AddVirtualMemorySizeCheck(3000000)
-                            .AddWorkingSetCheck(2000000),
+                            .AddPrivateMemorySizeCheck(200000000) // Maximum private memory
+                            .AddVirtualMemorySizeCheck(3000000000000)
+                            .AddWorkingSetCheck(200000000),
                         CheckStatus.Unhealthy
                     );
                 }
             });
-
-            services.AddHsts(
-                options =>
-                {
-                    options.MaxAge = TimeSpan.FromDays(100);
-                    options.IncludeSubDomains = true;
-                    options.Preload = true;
-                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -222,7 +241,10 @@ namespace GameServerWebAPI
             }
             else
             {
+                // Automatically 
                 app.UseHttpsRedirection();
+
+                // Avoid HTTP calls at all
                 app.UseHsts();
             }
 

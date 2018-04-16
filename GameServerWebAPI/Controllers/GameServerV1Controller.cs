@@ -20,7 +20,7 @@ namespace GameServerWebAPI.Controllers.V1
         public ActionResult<string> Get([FromQuery] int limit = 100)
         {
             var version = HttpContext.GetRequestedApiVersion();
-            return Ok(new ApiVersion(2, 0, "Preview"));
+            return Ok(version);
         }
     }
 }

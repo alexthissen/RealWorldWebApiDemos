@@ -53,7 +53,7 @@ namespace GameServerWebAPI.Controllers.V2
 
                 serverList = await steamClient.GetServerList(steamOptions.Value.DeveloperApiKey, limit, steamOptions.Value.DefaultResponseFormat);
                 
-                // TODO: Processing and filtering of results
+                // Processing and filtering of results
             }
             catch (HttpRequestException ex)
             {

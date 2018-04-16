@@ -13,8 +13,8 @@ namespace GameServerWebAPI.V2.IntegrationTests
     [TestClass]
     public class ServiceContractIntegrationTests
     {
-        TestServer server;
-        HttpClient client;
+        TestServer testServer;
+        HttpClient httpClient;
         DotNextAPI proxy;
 
         [TestInitialize]
@@ -29,16 +29,16 @@ namespace GameServerWebAPI.V2.IntegrationTests
                 });
 
             // Create test stack
-            server = new TestServer(builder);
-            client = server.CreateClient();
-            proxy = new DotNextAPI(client);
+            testServer = new TestServer(builder);
+            httpClient = testServer.CreateClient();
+            proxy = new DotNextAPI(httpClient);
         }
 
         [TestMethod]
         public async Task OpenApiDocumentationAvailable()
         {
             // Act
-            var response = await client.GetAsync("/swagger/index.html?url=/swagger/v2/swagger.json");
+            var response = await httpClient.GetAsync("/swagger/index.html?url=/swagger/v2/swagger.json");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -67,6 +67,5 @@ namespace GameServerWebAPI.V2.IntegrationTests
             Assert.AreEqual(1, response.Count, "Should have received a single server in list");
             Assert.AreEqual(response[0].Addr, "127.0.0.1", "Should have received a single server in list");
         }
-
     }
 }
