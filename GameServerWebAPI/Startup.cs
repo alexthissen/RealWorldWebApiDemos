@@ -1,5 +1,7 @@
 ﻿using FeatureToggle.Internal;
+using GameServerWebAPI.Infrastructure;
 using GameServerWebAPI.Proxies;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -108,6 +110,7 @@ namespace GameServerWebAPI
                 options.DeveloperMode = true;
                 options.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
             });
+            TelemetryConfiguration.Active.TelemetryInitializers.Add(new ServiceNameInitializer());
         }
 
         private void ConfigureFeatures(IServiceCollection services)
