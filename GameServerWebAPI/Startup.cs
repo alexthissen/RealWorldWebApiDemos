@@ -105,9 +105,10 @@ namespace GameServerWebAPI
 
         private void ConfigureTelemetry(IServiceCollection services)
         {
+            var env = services.BuildServiceProvider().GetRequiredService<IHostingEnvironment>();
             services.AddApplicationInsightsTelemetry(options =>
             {
-                options.DeveloperMode = true;
+                options.DeveloperMode = env.IsDevelopment();
                 options.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
             });
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new ServiceNameInitializer());
