@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.AzureAppServices;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.Processors;
 using Polly;
@@ -190,11 +191,16 @@ namespace GameServerWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
-            
             // Next call not required for .NET Core and Azure App Services
             //loggerFactory.AddAzureWebAppDiagnostics();
 
+            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
+            loggerFactory.AddAzureWebAppDiagnostics(
+                new AzureAppServicesDiagnosticsSettings
+                {
+                    OutputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss zzz} [{Level}] {RequestId}-{SourceContext}: {Message}{NewLine}{Exception}"
+                }
+            );
             loggerFactory.AddEventSourceLogger(); // ETW on Windows, dev/null on other platforms
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();

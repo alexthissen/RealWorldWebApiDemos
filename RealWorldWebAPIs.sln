@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.Health
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.HealthChecks", "Extensions\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj", "{FD01E4E5-5033-4B63-B2A9-B5EA5F03AE5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.Http.Polly", "Extensions\Microsoft.Extensions.Http.Polly\Microsoft.Extensions.Http.Polly.csproj", "{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServerWebAPI.ClientSdk", "GameServerWebAPI.ClientSdk\GameServerWebAPI.ClientSdk.csproj", "{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerWebAPI.WebTests", "GameServerWebAPI.WebTests\GameServerWebAPI.WebTests.csproj", "{1952385F-6F72-4C8E-8684-DD72ACADFB88}"
@@ -74,18 +72,6 @@ Global
 		{FD01E4E5-5033-4B63-B2A9-B5EA5F03AE5E}.Release|x64.Build.0 = Release|Any CPU
 		{FD01E4E5-5033-4B63-B2A9-B5EA5F03AE5E}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD01E4E5-5033-4B63-B2A9-B5EA5F03AE5E}.Release|x86.Build.0 = Release|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Debug|x64.Build.0 = Debug|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Debug|x86.Build.0 = Debug|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x64.ActiveCfg = Release|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x64.Build.0 = Release|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x86.ActiveCfg = Release|Any CPU
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70}.Release|x86.Build.0 = Release|Any CPU
 		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9053F2F5-B8A4-43F8-B3C8-14838FACC38C}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -129,7 +115,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B4234094-0FAC-4878-B5CB-D46C043FBEBF} = {6EEB1183-1412-4ABC-9CCE-8C368F79F5D3}
 		{FD01E4E5-5033-4B63-B2A9-B5EA5F03AE5E} = {6EEB1183-1412-4ABC-9CCE-8C368F79F5D3}
-		{1BA49BBE-F7D8-43C9-9361-C019F72B3C70} = {6EEB1183-1412-4ABC-9CCE-8C368F79F5D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C3CCBC3-E21D-4B5F-838C-5E11F1458764}
