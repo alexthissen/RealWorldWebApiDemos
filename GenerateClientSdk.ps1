@@ -11,7 +11,7 @@ del class1.cs
 
 dotnet add package Microsoft.AspNetCore --version 2.1-preview1-final
 dotnet add package Microsoft.Rest.ClientRuntime --version 2.3.11
-dotnet add package Newtonsoft.Json --version 10.0.1
+dotnet add package Newtonsoft.Json --version 11.0.2
 
 dotnet restore
 dotnet build
