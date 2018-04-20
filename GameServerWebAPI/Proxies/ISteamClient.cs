@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameServerWebAPI.Proxies
 {
-    [Headers("User-Agent: Steam WebAPI Client 1.0")]
+    [Headers("User-Agent: Steam WebAPI Client 2.0")]
     public interface ISteamClient
     {
         [Get("/GetServerList/v1")]

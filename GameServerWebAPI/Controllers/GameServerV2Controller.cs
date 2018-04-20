@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using GameServerWebAPI.Infrastructure;
 using GameServerWebAPI.Model;
 using GameServerWebAPI.Proxies;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,7 @@ namespace GameServerWebAPI.Controllers.V2
         private readonly IOptionsSnapshot<SteamApiOptions> steamOptions;
         private readonly ILogger<GameServerController> logger;
         private readonly ISteamClient steamClient;
-
+        
         public GameServerController(ISteamClient client, IOptionsSnapshot<SteamApiOptions> options, ILoggerFactory logger)
         {
             this.steamOptions = options;
@@ -50,6 +51,9 @@ namespace GameServerWebAPI.Controllers.V2
             try
             {
                 logger.LogInformation("Acquiring server list with {SearchLimit} results.", limit);
+                
+                // Approach using LogMessage.Define 
+                logger.GameServerListRequested(limit);
 
                 serverList = await steamClient.GetServerList(steamOptions.Value.DeveloperApiKey, limit, steamOptions.Value.DefaultResponseFormat);
                 

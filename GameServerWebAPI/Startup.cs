@@ -76,6 +76,9 @@ namespace GameServerWebAPI
             services.AddMvc()
                 .AddXmlSerializerFormatters()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Demonstration purpose only: Not needed when using IOptions
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         private void ConfigureSecurity(IServiceCollection services)
