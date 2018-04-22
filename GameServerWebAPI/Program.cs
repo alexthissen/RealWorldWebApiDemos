@@ -18,29 +18,8 @@ namespace GameServerWebAPI
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            //return WebHost.CreateDefaultBuilder();
-            var builder = new WebHostBuilder() 
-                .UseKestrel((builderContext, options) =>
-                {
-                    options.Configure(builderContext.Configuration.GetSection("Kestrel"));
-                })
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseHealthChecks("/health", TimeSpan.FromSeconds(3)) // Or to host on a separate port: .UseHealthChecks(port)
-                .UseDefaultServiceProvider((context, options) =>
-                {
-                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
-                })
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
-
-            if (args != null)
-            {
-                builder.UseConfiguration(new ConfigurationBuilder().AddCommandLine(args).Build());
-            }
-
-            return builder;
-        }
     }
 }

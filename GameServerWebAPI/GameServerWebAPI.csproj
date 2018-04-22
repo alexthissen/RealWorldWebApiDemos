@@ -2,9 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>606fc135-3bc1-4d34-967a-ef4ad5544677</UserSecretsId>
-    <ApplicationInsightsResourceId>/subscriptions/6d45a9d6-675e-4064-8356-08660968c19b/resourcegroups/RealWorldWebAPIs/providers/microsoft.insights/components/realworldwebapi</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/6d45a9d6-675e-4064-8356-08660968c19b/resourcegroups/RealWorldWebAPIs/providers/microsoft.insights/components/realworldwebapi</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,27 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FeatureToggle" Version="4.0.2" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.0-preview2-final" />
-    <PackageReference Include="NSwag.AspNetCore" Version="11.17.0" />
     <PackageReference Include="Refit" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0-preview2-30131" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Extensions\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

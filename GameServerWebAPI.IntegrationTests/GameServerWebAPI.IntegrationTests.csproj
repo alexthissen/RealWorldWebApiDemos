@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameServerWebAPI.ClientSdk\GameServerWebAPI.ClientSdk.csproj" />
     <ProjectReference Include="..\GameServerWebAPI\GameServerWebAPI.csproj" />
   </ItemGroup>
 
