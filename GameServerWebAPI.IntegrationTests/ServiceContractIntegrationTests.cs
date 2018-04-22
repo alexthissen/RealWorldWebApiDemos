@@ -56,18 +56,21 @@ namespace GameServerWebAPI.V2.IntegrationTests
             var response = await proxy.GameServer.GetAsync();
 
             // Assert
-            Assert.AreEqual(1, response.Count, "Should have received a single server in list");
+            Assert.AreEqual(100, response.Count, "Should have received a single server in list");
             Assert.AreEqual(response[0].Addr, "127.0.0.1", "Should have received a single server in list");
         }
 
         [TestMethod]
         public async Task GetGameServerListV2_WithQueryString()
         {
+            // Arrange 
+            int limit = 10;
+
             // Act
-            var response = await proxy.GameServer.GetAsync(100);
+            var response = await proxy.GameServer.GetAsync(limit);
 
             // Assert
-            Assert.AreEqual(1, response.Count, "Should have received a single server in list");
+            Assert.AreEqual(limit, response.Count, $"Should have received {limit} servers in list");
             Assert.AreEqual(response[0].Addr, "127.0.0.1", "Should have received a single server in list");
         }
 

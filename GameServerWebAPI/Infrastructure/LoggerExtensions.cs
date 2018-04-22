@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GameServerWebAPI.Infrastructure
 {
@@ -14,7 +11,7 @@ namespace GameServerWebAPI.Infrastructure
         {
             gameServerListRequested = LoggerMessage.Define<int>(
                 LogLevel.Information,
-                new EventId(2, nameof(GameServerListRequested)),
+                new EventId(102, nameof(GameServerListRequested)),
                 "Game server list requested (Limit = '{Limit}')");
         }
 

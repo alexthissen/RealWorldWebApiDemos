@@ -17,7 +17,6 @@ using Polly;
 using Polly.Registry;
 using Refit;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -57,21 +56,24 @@ namespace GameServerWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add registry
             var policyRegistry = services.AddPolicyRegistry();
+
+            // Centrally stored policies
             var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500));
             policyRegistry.Add("timeout", timeoutPolicy);
 
             // Options for particular external services
             services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
 
-            ConfigureFeatures(services);
-            ConfigureApiOptions(services);
-            ConfigureOpenApi(services);
-            ConfigureHealth(services);
             ConfigureVersioning(services);
-            ConfigureTelemetry(services);
             ConfigureTypedClients(services);
+            ConfigureOpenApi(services);
+            ConfigureTelemetry(services);
+            ConfigureHealth(services);
+            ConfigureFeatures(services);
             ConfigureSecurity(services);
+            ConfigureApiOptions(services);
 
             services.AddMvc()
                 .AddXmlSerializerFormatters()
@@ -100,10 +102,9 @@ namespace GameServerWebAPI
                 options.Timeout = TimeSpan.FromMilliseconds(15000);
                 options.DefaultRequestHeaders.Add("ClientFactory", "Check");
             })
-                        //.AddPolicyHandlerFromRegistry("timeout")
-                        .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
-                        .AddTransientHttpErrorPolicy(p => p.RetryAsync(3))
-                        .AddTypedClient(client => RestService.For<ISteamClient>(client));
+            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
+            .AddTransientHttpErrorPolicy(p => p.RetryAsync(3))
+            .AddTypedClient(client => RestService.For<ISteamClient>(client));
         }
 
         private void ConfigureTelemetry(IServiceCollection services)
@@ -174,7 +175,10 @@ namespace GameServerWebAPI
                     .AddUrlCheck(Configuration["SteamApiOptions:BaseUrl"],
                         response =>
                         {
-                            var status = response.StatusCode == System.Net.HttpStatusCode.NotFound ? CheckStatus.Healthy : CheckStatus.Unhealthy;
+                            var status = response.StatusCode == 
+                                System.Net.HttpStatusCode.NotFound 
+                                ? CheckStatus.Healthy 
+                                : CheckStatus.Unhealthy;
                             return new ValueTask<IHealthCheckResult>(HealthCheckResult.FromStatus(status, "Steam API base URL reachable."));
                         }
                     );
@@ -254,7 +258,7 @@ namespace GameServerWebAPI
             }
             else
             {
-                // Automatically 
+                // Automatically switch to HTTPS via redirect
                 app.UseHttpsRedirection();
 
                 // Avoid HTTP calls at all
