@@ -70,8 +70,8 @@ namespace GameServerWebAPI
             ConfigureTypedClients(services);
             ConfigureOpenApi(services);
             ConfigureTelemetry(services);
-            ConfigureHealth(services);
             ConfigureFeatures(services);
+            ConfigureHealth(services);
             ConfigureSecurity(services);
             ConfigureApiOptions(services);
 
