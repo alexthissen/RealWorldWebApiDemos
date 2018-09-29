@@ -231,8 +231,8 @@ namespace GameServerWebAPI
                         {
                             document.BasePath = "/";
                         };
-                    settings.GeneratorSettings.Title = "DotNext API";
-                    settings.GeneratorSettings.Description = "DotNext SPb 2018 Real-world Web API";
+                    settings.GeneratorSettings.Title = "Game Server Web API";
+                    settings.GeneratorSettings.Description = "An example real-world Web API";
                     settings.GeneratorSettings.Version = "2.0";
                     settings.GeneratorSettings.OperationProcessors.Add(
                         new ApiVersionProcessor() { IncludedVersions = { "2.0" } }
@@ -248,8 +248,8 @@ namespace GameServerWebAPI
                     {
                         document.BasePath = "/";
                     };
-                    settings.GeneratorSettings.Description = "DotNext SPb 2018 Real-world Web API";
-                    settings.GeneratorSettings.Title = "DotNext API";
+                    settings.GeneratorSettings.Description = "An example real-world Web API";
+                    settings.GeneratorSettings.Title = "Game Server Web API";
                     settings.GeneratorSettings.Version = "1.0";
                     settings.GeneratorSettings.OperationProcessors.Add(
                         new ApiVersionProcessor() { IncludedVersions = { "1.0" } }
