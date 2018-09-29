@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		GenerateClientSdk.ps1 = GenerateClientSdk.ps1
 		global.json = global.json
 		Local.testsettings = Local.testsettings
+		RealWorldWebAPIs.rest = RealWorldWebAPIs.rest
 		RealWorldWebAPIs.v1.json = RealWorldWebAPIs.v1.json
 		RealWorldWebAPIs.v2.json = RealWorldWebAPIs.v2.json
 	EndProjectSection

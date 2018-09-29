@@ -61,7 +61,7 @@ namespace GameServerWebAPI
 
             // Centrally stored policies
             var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500));
-            policyRegistry.Add("timeout", timeoutPolicy);
+            policyRegistry.Add("steamtimeout", timeoutPolicy);
 
             // Options for particular external services
             services.Configure<SteamApiOptions>(Configuration.GetSection("SteamApiOptions"));
@@ -79,7 +79,7 @@ namespace GameServerWebAPI
                 .AddXmlSerializerFormatters()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Demonstration purpose only: Not needed when using IOptions
+            // Demonstration purpose only: Not needed when using IOptions or ISnapshotOptions
             services.AddSingleton<IConfiguration>(Configuration);
         }
 
@@ -102,7 +102,9 @@ namespace GameServerWebAPI
                 options.Timeout = TimeSpan.FromMilliseconds(15000);
                 options.DefaultRequestHeaders.Add("ClientFactory", "Check");
             })
-            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(1500)))
+            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromMilliseconds(500)))
+            .AddPolicyHandlerFromRegistry("steamtimeout")
+            // Handle 5xx status code and any responses with a 408 (Request Timeout) status code
             .AddTransientHttpErrorPolicy(p => p.RetryAsync(3))
             .AddTypedClient(client => RestService.For<ISteamClient>(client));
         }
@@ -203,15 +205,14 @@ namespace GameServerWebAPI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             // Next call not required for .NET Core and Azure App Services
-            //loggerFactory.AddAzureWebAppDiagnostics();
+            //loggerFactory.AddAzureWebAppDiagnostics(
+            //    new AzureAppServicesDiagnosticsSettings
+            //    {
+            //        OutputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss zzz} [{Level}] {RequestId}-{SourceContext}: {Message}{NewLine}{Exception}"
+            //    }
+            //);
 
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
-            loggerFactory.AddAzureWebAppDiagnostics(
-                new AzureAppServicesDiagnosticsSettings
-                {
-                    OutputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss zzz} [{Level}] {RequestId}-{SourceContext}: {Message}{NewLine}{Exception}"
-                }
-            );
             loggerFactory.AddEventSourceLogger(); // ETW on Windows, dev/null on other platforms
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
