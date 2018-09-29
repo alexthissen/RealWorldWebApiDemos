@@ -18,7 +18,7 @@ namespace GameServerWebAPI.V2.IntegrationTests
     {
         TestServer testServer;
         HttpClient httpClient;
-        DotNextAPI proxy;
+        SteamServerBrowserWebAPI proxy;
 
         [TestInitialize]
         public void Initialize()
@@ -34,7 +34,7 @@ namespace GameServerWebAPI.V2.IntegrationTests
             // Create test stack
             testServer = new TestServer(builder);
             httpClient = testServer.CreateClient();
-            proxy = new DotNextAPI(httpClient);
+            proxy = new SteamServerBrowserWebAPI(httpClient);
         }
 
         [TestMethod]

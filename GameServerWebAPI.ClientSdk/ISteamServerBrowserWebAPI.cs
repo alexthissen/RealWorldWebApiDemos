@@ -10,9 +10,9 @@ namespace GameServerWebAPI.ClientSdk
     using Newtonsoft.Json;
 
     /// <summary>
-    /// DotNext SPb 2018 Real-world Web API
+    /// An newer example of a real-world-ish Web API
     /// </summary>
-    public partial interface IDotNextAPI : System.IDisposable
+    public partial interface ISteamServerBrowserWebAPI : System.IDisposable
     {
         /// <summary>
         /// The base URI of the service.

@@ -16,9 +16,9 @@ namespace GameServerWebAPI.ClientSdk
     using System.Net.Http;
 
     /// <summary>
-    /// DotNext SPb 2018 Real-world Web API
+    /// An newer example of a real-world-ish Web API
     /// </summary>
-    public partial class DotNextAPI : ServiceClient<DotNextAPI>, IDotNextAPI
+    public partial class SteamServerBrowserWebAPI : ServiceClient<SteamServerBrowserWebAPI>, ISteamServerBrowserWebAPI
     {
         /// <summary>
         /// The base URI of the service.
@@ -41,18 +41,31 @@ namespace GameServerWebAPI.ClientSdk
         public virtual IGameServer GameServer { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the DotNextAPI class.
+        /// Initializes a new instance of the SteamServerBrowserWebAPI class.
         /// </summary>
-        /// <param name='handlers'>
-        /// Optional. The delegating handlers to add to the http client pipeline.
+        /// <param name='httpClient'>
+        /// HttpClient to be used
         /// </param>
-        public DotNextAPI(params DelegatingHandler[] handlers) : base(handlers)
+        /// <param name='disposeHttpClient'>
+        /// True: will dispose the provided httpClient on calling SteamServerBrowserWebAPI.Dispose(). False: will not dispose provided httpClient</param>
+        public SteamServerBrowserWebAPI(HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
         {
             Initialize();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DotNextAPI class.
+        /// Initializes a new instance of the SteamServerBrowserWebAPI class.
+        /// </summary>
+        /// <param name='handlers'>
+        /// Optional. The delegating handlers to add to the http client pipeline.
+        /// </param>
+        public SteamServerBrowserWebAPI(params DelegatingHandler[] handlers) : base(handlers)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SteamServerBrowserWebAPI class.
         /// </summary>
         /// <param name='rootHandler'>
         /// Optional. The http client handler used to handle http transport.
@@ -60,13 +73,13 @@ namespace GameServerWebAPI.ClientSdk
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public DotNextAPI(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
+        public SteamServerBrowserWebAPI(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
         {
             Initialize();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DotNextAPI class.
+        /// Initializes a new instance of the SteamServerBrowserWebAPI class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -77,7 +90,7 @@ namespace GameServerWebAPI.ClientSdk
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public DotNextAPI(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
+        public SteamServerBrowserWebAPI(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (baseUri == null)
             {
@@ -87,7 +100,7 @@ namespace GameServerWebAPI.ClientSdk
         }
 
         /// <summary>
-        /// Initializes a new instance of the DotNextAPI class.
+        /// Initializes a new instance of the SteamServerBrowserWebAPI class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -101,7 +114,7 @@ namespace GameServerWebAPI.ClientSdk
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public DotNextAPI(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        public SteamServerBrowserWebAPI(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
             if (baseUri == null)
             {

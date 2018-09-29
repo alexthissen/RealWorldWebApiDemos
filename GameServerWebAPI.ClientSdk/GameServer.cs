@@ -21,7 +21,7 @@ namespace GameServerWebAPI.ClientSdk
     /// <summary>
     /// GameServer operations.
     /// </summary>
-    public partial class GameServer : IServiceOperations<DotNextAPI>, IGameServer
+    public partial class GameServer : IServiceOperations<SteamServerBrowserWebAPI>, IGameServer
     {
         /// <summary>
         /// Initializes a new instance of the GameServer class.
@@ -32,7 +32,7 @@ namespace GameServerWebAPI.ClientSdk
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public GameServer(DotNextAPI client)
+        public GameServer(SteamServerBrowserWebAPI client)
         {
             if (client == null)
             {
@@ -42,9 +42,9 @@ namespace GameServerWebAPI.ClientSdk
         }
 
         /// <summary>
-        /// Gets a reference to the DotNextAPI
+        /// Gets a reference to the SteamServerBrowserWebAPI
         /// </summary>
-        public DotNextAPI Client { get; private set; }
+        public SteamServerBrowserWebAPI Client { get; private set; }
 
         /// <summary>
         /// Retrieve a list of online game servers.

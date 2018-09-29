@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameServerWebAPI.ClientSdk
 {
-    public partial class DotNextAPI
+    public partial class SteamServerBrowserWebAPI
     {
-        public DotNextAPI(HttpClient client): base(client, false)
+        public SteamServerBrowserWebAPI(HttpClient client): base(client, false)
         {
             Initialize();
             BaseUri = client.BaseAddress;

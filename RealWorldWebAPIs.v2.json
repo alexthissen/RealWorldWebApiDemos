@@ -1,9 +1,9 @@
 {
-  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.29.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v11.17.0.0 (NJsonSchema v9.10.42.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "DotNext API",
-    "description": "DotNext SPb 2018 Real-world Web API",
+    "title": "Steam Server Browser Web API",
+    "description": "An newer example of a real-world-ish Web API",
     "version": "2.0"
   },
   "host": "localhost:44305",
@@ -30,22 +30,22 @@
             "type": "integer",
             "name": "limit",
             "in": "query",
-            "x-nullable": false,
             "description": "Maximum number of servers to retrieve.",
             "format": "int32",
-            "default": 100
+            "default": 100,
+            "x-nullable": false
           }
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "List of online game servers.",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/GameServerInfo"
               }
-            },
-            "x-nullable": true
+            }
           },
           "400": {
             "description": ""
@@ -128,8 +128,5 @@
         }
       }
     }
-  },
-  "parameters": {},
-  "responses": {},
-  "securityDefinitions": {}
+  }
 }
